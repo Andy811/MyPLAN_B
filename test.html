@@ -1,0 +1,54 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+</head>
+<style>
+    th,td{
+          width: 200px;
+          height: 50px;
+          border: 1px solid black;
+      }
+    textarea{outline:none;resize:none;border-color: transparent}
+    table{border-collapse:collapse;}
+</style>
+<body>
+
+<table>
+    <tr>
+            <th>功能序号</th>
+            <th>功能名称</th>
+            <th>父功能序号</th>
+            <th>负责人</th>
+            <th>开始时间</th>
+            <th>结束时间</th>
+            <th>是否完成</th>
+            <th>备注</th>
+            <th>操作</th>
+    </tr>
+    {% for item in datas %}
+    <form action="/users/update" method="post">
+    <tr>
+        <td>{{item.id}}</td>
+        <td><textarea rows="3" cols="30" type="text" name="name" value="{{item.name}}">{{item.name}}</textarea></td>
+        <td><textarea rows="3" cols="30" type="text" name="pid" value="{{item.pid}}">{{item.pid}}</textarea></td>
+        <td><textarea rows="3" cols="30" type="text" name="pm" value="{{item.pm}}">{{item.pm}}</textarea></td>
+        <td><textarea rows="3" cols="30" type="text" name="stime" value="{{item.stime}}">{{item.stime}}</textarea></td>
+        <td><textarea rows="3" cols="30" type="text" name="etime" value="{{item.etime}}">{{item.etime}}</textarea></td>
+        <td><textarea rows="3" cols="30" type="text" name="isend" value="{{item.isend}}">{{item.isend}}</textarea></td>
+        <td><textarea rows="3" cols="30" type="text" name="remark" value="{{item.remark}}">{{item.remark}}</textarea></td>       
+        <td>
+            <button href="/users/del/{{item.id}}">删除</button>
+            <input type="hidden" value="{{item.id}}" name="id">
+            <input type="submit" value="提交">
+        </td> 
+    </tr>
+</form>
+    {% endfor %}
+</table>
+
+<form action="/users/add" method="post">
+    <input type="submit" value="新增">
+</form>
+</body>
+</html>
