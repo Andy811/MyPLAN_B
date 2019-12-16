@@ -41,8 +41,10 @@
                 <table style="border:3px #cccccc solid;" cellpadding="10" border='1' id="table">
                         <tr>
                             
-                            <td>時段/日期</td><td><%= data%><br>2019/11/25</td><td>周二<br>2019/11/26</td><td>周三<br>2019/11/27</td><td>周四<br>2019/11/28</td><td>周五<br>2019/11/29</td><td>周六<br>2019/11/30</td><td>周日<br>2019/12/1</td>
-                             
+                            <td>時段/日期</td>
+                            <%for(var i = 0;i <table_day.length;i++){%>
+                            <td><%= table_day[i]%><br><%= table_date[i]%></td>                               
+                             <%}%> 
                         </tr>
                         <tr><td>7:00~8:00</td>
                             <td><a href="">1</a></td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>

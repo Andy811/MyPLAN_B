@@ -7,7 +7,6 @@ var passport  = require('passport');
 
 
 
-
 module.exports = function(app) {
   app.get(/(.*)\.(jpg|gif|png|ico|css|js|txt)/i, function(req, res) {
     res.sendfile(__dirname + "/" + req.params[0] + "." + req.params[1], function(err) {
@@ -68,22 +67,78 @@ module.exports = function(app) {
   res.render('record', {
    user:req.user
   });
- });
- app.get('/logout', function(req,res){
+});
+app.get('/logout', function(req,res){
   req.logout();
   res.redirect('/');
- })
+})
 //reservation.ejs insert and search
 
+//輸入索引值(0,1,2,3,4,5,6)
+
+function setWeek(inputDay){
+  var d = new Date()
+  var weekday = new Array(7)
+  var day = Array()
+  
+  weekday[0] = "星期日"
+  weekday[1] = "星期一"
+  weekday[2] = "星期二"
+  weekday[3] = "星期三"
+  weekday[4] = "星期四"
+  weekday[5] = "星期五"
+  weekday[6] = "星期六"
+
+  var j = 0;
+  
+  for (i = 0; i < weekday.length-inputDay; i++) {
+      day[i] = weekday[inputDay + i];
+  }
+  while(day.length < weekday.length) {           
+      day[day.length] = weekday[j];
+      j+=1;            
+  }
+
+  return day
+}
+
+function getFormatDate(setDate) {
+  var date = new Date();
+  date.setDate(setDate);
+  var seperator = "/";
+  var year = date.getFullYear();
+  var month = date.getMonth() + 1;
+  var strDate = date.getDate();
+  if (month >= 1 && month <= 9) {
+      month = "0" + month;
+  }
+  if (strDate >= 0 && strDate <= 9) {
+      strDate = "0" + strDate;
+  }
+  var currentdate = year + seperator + month + seperator + strDate;
+  return currentdate;
+  }
+  
+
+  function setMyDate(date){
+    var dates = Array(7)
+    
+    for(i=0;i<7;i++){
+       
+      dates[i] = getFormatDate(date+i)  // (2)
+    }
+    return dates
+  }
+  
 
  app.get('/reservation', isLoggedIn, function(req, res){
   res.render('reservation.ejs', {
-   user:req.user,
-   data:'幹'
-  });
- });
- 
- 
+   user:req.user, 
+   data:'哭哭哭哭哭哭阿',
+   table_day:setWeek(new Date().getDay()),
+   table_date:setMyDate(16)
+  }); 
+});  
 
   app.post('/search',urlencodedParser, function(req, res) {
   console.log(req.body);
@@ -118,11 +173,6 @@ module.exports = function(app) {
                 res.render('searchpage',{data:data.reservation});
               }
       })
-  app.get('/searchpage', isLoggedIn, function(req, res){
-    res.render('searchpage', {
-    data:data.reservation,
-    });
-  });
   });
     
 
