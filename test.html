@@ -2,27 +2,8 @@
 
 <body>
     <script type="text/javascript">
-    var date = new Date();
-    date = date.setDate(date.getDate()+1)
-    
-    function getNowFormatDate(setDate) {
-
-        var date = new Date();
-        date.setDate(setDate);//++++
-        var seperator = "/";
-        var year = date.getFullYear();
-        var month = date.getMonth() + 1;
-        var strDate = date.getDate();
-        if (month >= 1 && month <= 9) {
-            month = "0" + month;
-        }
-        if (strDate >= 0 && strDate <= 9) {
-            strDate = "0" + strDate;
-        }
-        var currentdate = year + seperator + month + seperator + strDate;
-        return currentdate;
-    }
-    document.write(getNowFormatDate(32))
+    var curMonthDays = new Date(year,month,0).getDate();
+    document.write(curMonthDays)
     </script>
 </body>
 

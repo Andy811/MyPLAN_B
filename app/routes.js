@@ -1,9 +1,9 @@
-
+var express = require('express');
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var passport  = require('passport');
-
+var router = express.Router();
 
 
 
@@ -119,7 +119,7 @@ function getFormatDate(setDate) {
   return currentdate;
   }
   
-
+//輸入 本月的第幾天
   function setMyDate(date){
     var dates = Array(7)
     
@@ -130,13 +130,16 @@ function getFormatDate(setDate) {
     return dates
   }
   
-
+var today = new Date();
  app.get('/reservation', isLoggedIn, function(req, res){
+  var roomid = req.body.room_search
+  console.log(roomid)
   res.render('reservation.ejs', {
    user:req.user, 
    data:'哭哭哭哭哭哭阿',
-   table_day:setWeek(new Date().getDay()),
-   table_date:setMyDate(16)
+   table_day:setWeek(today.getDay()),
+   table_date:setMyDate(today.getDate()),
+   roomID:roomid
   }); 
 });  
 

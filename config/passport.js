@@ -1,5 +1,6 @@
 var LocalStrategy = require("passport-local").Strategy;
-
+var express = require('express');
+var router = express.Router();
 var mysql = require('mysql');
 var dbconfig = require('./database');
 var connection = mysql.createConnection(dbconfig.connection);
@@ -38,3 +39,4 @@ module.exports = function(passport) {
   })
  );
 };
+//module.exports = router;

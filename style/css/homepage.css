@@ -127,7 +127,7 @@ main{
 main #table{
     height: 600px;
     width: 600px; 
-    
+    float: right;
 }
 
 main #info-menu{

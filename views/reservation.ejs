@@ -47,10 +47,12 @@
                              <%}%> 
                         </tr>
                         <tr><td>7:00~8:00</td>
-                            <td><a href="">1</a></td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
+                            <td><a href=""><%=roomID%></a></td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
                         <tr><td>8:00~9:00</td>
                             <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
                         <tr><td>9:00~10:00</td>
+                            <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
+                        <tr><td>10:00~11:00</td>
                             <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
                         <tr><td>11:00~12:00</td>
                             <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
@@ -65,70 +67,21 @@
                         <tr><td>16:00~17:00</td>
                             <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
                         <tr><td>17:00~18:00</td>
-                            <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
-            <div class="main_func_text">搜尋會議</div>
-            <form action="search" method="post"> 
-                        <div class="inputer" name="searchroomid" class="inparea"type="text" >
-                            會議室編號：<select name="searchroomid" class="inparea"type="text">
-                                    <option value ="一號會議室" >一號會議室</option>
-                                    <option value = "二號會議室">二號會議室</option>
-                                    <option value = "三號會議室">三號會議室</option>
-                                    <option value = "四號會議室">四號會議室</option>
-                            </select>
-                        <div class="inputer"  name="searchstarttime" class="inparea" type="text">
-                            開始時間：<select name="searchstarttime" class="inparea" type="text">
-                                    <option value ="7:00">7:00</option>
-                                    <option value ="8:00">8:00</option>
-                                    <option value ="9:00">9:00</option>
-                                    <option value ="10:00">10:00</option>
-                                    <option value ="11:00">11:00</option>
-                                    <option value ="12:00">12:00</option>
-                                    <option value ="13:00">13:00</option>
-                                    <option value ="14:00">14:00</option>
-                                    <option value ="15:00">15:00</option>
-                                    <option value ="16:00">16:00</option>
-                                    <option value ="17:00">17:00</option>
-                            </select>
-                        </div>
-                        <div class="inputer"name="searchendtime" class="inparea"type="text">
-                            結束時間：<select name="searchendtime" class="inparea"type="text">
-                                    <option value ="8:00">8:00</option>
-                                    <option value ="9:00">9:00</option>
-                                    <option value ="10:00">10:00</option>
-                                    <option value ="11:00">11:00</option>
-                                    <option value ="12:00">12:00</option>
-                                    <option value ="13:00">13:00</option>
-                                    <option value ="14:00">14:00</option>
-                                    <option value ="15:00">15:00</option>
-                                    <option value ="16:00">16:00</option>
-                                    <option value ="17:00">17:00</option>
-                                    <option value ="18:00">18:00</option>
-                            </select>
-                    </div>
-                      
-                        <div class="inputer" name="searchopendate" class="inparea" type="Date">
-                            開會日期：<input type="date" name="searchopendate" class="inparea" type="Date">
-                     </div>
-                     <div class="inputer" name="searchdepartment" class="inparea"type="text">
-                        開會單位：<select name="searchdepartment" class="inparea"type="text">
-                                <option value ="婦產科">婦產科</option>
-                                <option value ="精神科">精神科</option>
-                                <option value ="泌尿科">泌尿科</option>
-                                <option value ="科科">科科</option>
-                        </select>
-                </div>               
-                <div class="inputer"  name="searchtopic" class="inparea"type="text">
-                    會議名稱：<input name="searchtopic" class="inparea"type="text">
-                 </div>
+                            <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>            
                     </table>
-                    <div class="form-btn">
-                        <button type="submit" value="submit" class="btn btn-primary">搜尋</button>
-                        </div>
-                    </form>
+                   
             
                    
                     <div id="info-menu">       
                             <div class="main_func_text">會議排程</div>
+                            <div class="inputer" name="room_search" type= "text" >
+                                    會議室編號：<select name="meetingroom" class="inparea"type="text">
+                                            <option value ="一號會議室" >一號會議室</option>
+                                            <option value = "二號會議室">二號會議室</option>
+                                            <option value = "三號會議室">三號會議室</option>
+                                            <option value = "四號會議室">四號會議室</option>
+                                    </select>
+                            </div>                          
                             <div class="inputer" id="search-date">
                                 起始日期：<input type="date" name="SearchStartDate" class="inparea" id="SearchStartDate">
                                 <div class="form-btn">
@@ -195,7 +148,9 @@
                                                     </div>               
                                     <div class="form-btn">
                                     <button type="submit" value="submit" class="btn btn-primary">確認</button>
-                                    </div>
+                                    
+                                </div>
+                             
                             </form>
                                 <!--/div--> 
                            

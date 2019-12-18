@@ -38,7 +38,23 @@ app.get(/(.*)\.(jpg|gif|png|ico|css|js|txt)/i, function(req, res) {
 
 
 
-
+    const mysql = require('mysql');
+    const connection = mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        password: "123456",
+        database: "nodejs_login",
+    });
+    let sql = "delete from reservation where opendate  < sysdate()";
+    connection.query(sql, (err, data) => {
+        if (err) {
+            throw err;
+        }
+    
+        // 執行成功
+        console.log('delete success!');
+        console.log(data);
+    });
 
     
 require('./app/routes.js')(app, passport);
