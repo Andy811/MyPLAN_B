@@ -131,6 +131,7 @@ function getFormatDate(setDate) {
   }
   
 var today = new Date();
+
  app.get('/reservation', isLoggedIn, function(req, res){
   var roomid = req.body.room_search
   console.log(roomid)
@@ -139,11 +140,19 @@ var today = new Date();
    data:'哭哭哭哭哭哭阿',
    table_day:setWeek(today.getDay()),
    table_date:setMyDate(today.getDate()),
-   roomID:roomid
+   roomID:'哭哭阿'
   }); 
 });  
 
-  app.post('/search',urlencodedParser, function(req, res) {
+//好想post成功
+app.post('/reservation',isLoggedIn, function(req,res){
+
+  var roomid = req.body.room_search
+  res.render('reservation.ejs',{roomID:roomid})
+  res.redirect('/reservation')
+});
+//////我是分隔線
+  app.post('/reservation',urlencodedParser, function(req, res) {
   console.log(req.body);
   
     var con = mysql.createConnection({
@@ -160,13 +169,14 @@ var today = new Date();
   var searchdate = req.body.searchopendate
   var searchdepartment = req.body.searchdepartment
   var searchtopic = req.body.searchtopic
-
+  var Name = new Array();
   var sqlforsearch = 'select * from reservation where (roomid="'+ searchroom +'" OR starttime="'+ searchstart +'"OR endtime="'+ searchend +'"OR opendate="'+ searchdate +'"OR department="'+ searchdepartment +'"OR meetingname="'+ searchtopic +'")'
   //var sqlforsearch = 'select meetingName from reservation where opendate='+searchdate
   //測試
 
-  con.query(sqlforsearch, function(err, rows) {
+  con.query(sqlforsearchs, function(err, rows) {
       console.log('搜尋結果',rows);
+      
       data.reservation = rows;     
       
       data.reservation = rows;
@@ -176,7 +186,9 @@ var today = new Date();
                 res.render('searchpage',{data:data.reservation});
               }
       })
+
   });
+  
     
 
 
