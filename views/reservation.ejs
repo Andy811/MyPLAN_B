@@ -1,22 +1,31 @@
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <!--meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge"-->
     <title>首頁</title>
-    <link href="/style/css/homepage.css" type="text/css" rel="stylesheet" >
-  
+    <link href="/style/css/homepage.css" type="text/css" rel="stylesheet">
+   
+    <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"-->
+    <link rel="stylesheet" href="/kendo/css/kendo.common-material.min.css">
+    <link rel="stylesheet" href="/kendo/css/kendo.material.min.css">
+    <script src="/jquery/jquery-2.1.4.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+    <script src="/kendo/js/kendo.all.min.js"></script>
+    
 </head>
 
- 
-  
+
+
 </head>
-<body>  
-        <img src="/style/picture/homeTitlePicture.jpg" >
+
+<body>
+    <img src="/style/picture/homeTitlePicture.jpg">
     <div id="container">
         <nav>
             <div id="logo">
-                會議管理系統                
+                會議管理系統
             </div>
             <ul id=menu>
                 <li><a href="/homepage">首頁</a></li>
@@ -25,146 +34,235 @@
                 <li><a href="/record">會議記錄</a></li>
                 <li><a href="/edit">編輯會議/參加人員</a></li>
             </ul>
-        </nav>   
+        </nav>
         <header>
-              
+
             <div id="links">
                 <a href="">登出</a>
             </div>
             <div id="user-name">
                 <h3>使用者:<%= user.username %></h3>
             </div>
-        </header> 
-        
-        
-        <main> 
-                <table style="border:3px #cccccc solid;" cellpadding="10" border='1' id="table">
-                        <div id="info-menu">       
-                            <div class="main_func_text">會議排程</div>
-                            <div class="inputer" name="room_search" type= "text" >
-                                會議室編號：<select name="meetingroom" class="inparea"type="text">
-                                    <option value ="一號會議室" >一號會議室</option>
-                                    <option value = "二號會議室">二號會議室</option>
-                                    <option value = "三號會議室">三號會議室</option>
-                                    <option value = "四號會議室">四號會議室</option>
-                                        </select>
-                                <button type="submit" value="submit" class="btn btn-primary">test button</button>
-                            </div>                          
-                            <div class="inputer" id="search-date">
-                                起始日期：<input type="date" name="SearchStartDate" class="inparea" id="SearchStartDate">
-                                <div class="form-btn">
-                                    <button type="submit" value="submit" >上一周</button>     
-                                    <button type="submit" value="submit" >下一周</button>
-                                </div>
+        </header>
+
+
+        <main>
+            <table style="border:3px #cccccc solid;" cellpadding="10" border='1' id="table">
+                <div id="info-menu">
+                    <form action="datainsert" method="post">
+                    <div class="main_func_text">會議排程</div>
+                    <div class="inputer" name="room_search" type="text">
+                        會議室編號：<select name="meetingroom" class="inparea" type="text">
+                            <option value="一號會議室">一號會議室</option>
+                            <option value="二號會議室">二號會議室</option>
+                            <option value="三號會議室">三號會議室</option>
+                            <option value="四號會議室">四號會議室</option>
+                        </select>
+                    </div>
+                    <div class="inputer" id="search-date">
+                        起始日期：<input type="date" name="searchdate" class="inparea" id="SearchStartDate">
+                        <button type="submit" value="submit" class="btn btn-primary">查詢</button>
+                        <div class="form-btn">
+                            <button type="submit" value="submit">上一周</button>
+                            <button type="submit" value="submit">下一周</button>
+                        </div>
+                    </div>
+                    </form>
+                    <form action="datainsert" method="post">
+                        <div class="main_func" id="selectByEq_fbtn">
+                            <div class="main_func_text">預約會議室</div>
+                            <div class="inputer" name="meetingname" type="text">
+                                會議名稱：<input name="meetingname" class="inparea" type="text">
                             </div>
-                            <form action="datainsert" method="post">
-                            <div class="main_func" id="selectByEq_fbtn">
-                              <div 
-                              class="main_func_text">預約會議室</div>
-                              <div class="inputer" name="meetingname" type= "text" >
-                                會議名稱：<input name="meetingname" class="inparea"type="text">
-                             </div>
-                                    <div class="inputer" name="room" type= "text" >
-                                            會議室編號：<select name="meetingroom" class="inparea"type="text">
-                                                    <option value ="一號會議室" >一號會議室</option>
-                                                    <option value = "二號會議室">二號會議室</option>
-                                                    <option value = "三號會議室">三號會議室</option>
-                                                    <option value = "四號會議室">四號會議室</option>
-                                            </select>
-                                    </div>                          
-                                    <div class="inputer" name="opendate" class="inparea" type="Date" >
-                                           開會日期：<input type="date" name="opendate" class="inparea" type="Date">
-                                    </div>
-                                    
-                                            <div class="inputer" name="start" type="text">
-                                            開始時間：<select name="StartTime" class="inparea" type="text">
-                                                    <option value ="7:00">7:00</option>
-                                                    <option value ="8:00">8:00</option>
-                                                    <option value ="9:00">9:00</option>
-                                                    <option value ="10:00">10:00</option>
-                                                    <option value ="11:00">11:00</option>
-                                                    <option value ="12:00">12:00</option>
-                                                    <option value ="13:00">13:00</option>
-                                                    <option value ="14:00">14:00</option>
-                                                    <option value ="15:00">15:00</option>
-                                                    <option value ="16:00">16:00</option>
-                                                    <option value ="17:00">17:00</option>
-                                            </select>
-                                            </div>        
-                                            <div class="inputer"  name="end" type="text">
-                                                    結束時間：<select name="endtime" class="inparea"type="text">
-                                                            <option value ="8:00">8:00</option>
-                                                            <option value ="9:00">9:00</option>
-                                                            <option value ="10:00">10:00</option>
-                                                            <option value ="11:00">11:00</option>
-                                                            <option value ="12:00">12:00</option>
-                                                            <option value ="13:00">13:00</option>
-                                                            <option value ="14:00">14:00</option>
-                                                            <option value ="15:00">15:00</option>
-                                                            <option value ="16:00">16:00</option>
-                                                            <option value ="17:00">17:00</option>
-                                                            <option value ="18:00">18:00</option>
-                                                    </select>
-                                            </div>
-                                                    <div class="inputer" name="unit" type="text">
-                                                            開會單位：<select name="department" class="inparea"type="text">
-                                                                    <option value ="婦產科">婦產科</option>
-                                                                    <option value ="精神科">精神科</option>
-                                                                    <option value ="泌尿科">泌尿科</option>
-                                                                    <option value ="科科">科科</option>
-                                                            </select>
-                                                    </div>               
-                                    <div class="form-btn">
-                                    <button type="submit" value="submit" class="btn btn-primary">確認</button>
-                                    
-                                </div>
-                             
-                            </form>
-                                <!--/div--> 
-                           
-                              
+                            <div class="inputer" name="room" type="text">
+                                會議室編號：<select name="meetingroom" class="inparea" type="text">
+                                    <option value="一號會議室">一號會議室</option>
+                                    <option value="二號會議室">二號會議室</option>
+                                    <option value="三號會議室">三號會議室</option>
+                                    <option value="四號會議室">四號會議室</option>
+                                </select>
                             </div>
-                    </div>    
-                        <tr>
-                            
-                            <td>時段/日期</td>
-                            <%for(var i = 0;i <table_day.length;i++){%>
-                            <td><%= table_day[i]%><br><%= table_date[i]%></td>                               
-                             <%}%> 
+                            <div class="inputer" name="opendate" class="inparea" type="Date">
+                                開會日期：<input type="date" name="opendate" class="inparea" type="Date">
+                            </div>
+
+                            <div class="inputer" name="start" type="text">
+                                開始時間：<select name="StartTime" class="inparea" type="text">
+                                    <option value="7:00">7:00</option>
+                                    <option value="8:00">8:00</option>
+                                    <option value="9:00">9:00</option>
+                                    <option value="10:00">10:00</option>
+                                    <option value="11:00">11:00</option>
+                                    <option value="12:00">12:00</option>
+                                    <option value="13:00">13:00</option>
+                                    <option value="14:00">14:00</option>
+                                    <option value="15:00">15:00</option>
+                                    <option value="16:00">16:00</option>
+                                    <option value="17:00">17:00</option>
+                                </select>
+                            </div>
+                            <div class="inputer" name="end" type="text">
+                                結束時間：<select name="endtime" class="inparea" type="text">
+                                    <option value="8:00">8:00</option>
+                                    <option value="9:00">9:00</option>
+                                    <option value="10:00">10:00</option>
+                                    <option value="11:00">11:00</option>
+                                    <option value="12:00">12:00</option>
+                                    <option value="13:00">13:00</option>
+                                    <option value="14:00">14:00</option>
+                                    <option value="15:00">15:00</option>
+                                    <option value="16:00">16:00</option>
+                                    <option value="17:00">17:00</option>
+                                    <option value="18:00">18:00</option>
+                                </select>
+                            </div>
+                            <div class="inputer" name="unit" type="text">
+                                開會單位：<select name="department" class="inparea" type="text">
+                                    <option value="婦產科">婦產科</option>
+                                    <option value="精神科">精神科</option>
+                                    <option value="泌尿科">泌尿科</option>
+                                    <option value="科科">科科</option>
+                                </select>
+                            </div>
+                            <div class="form-btn">
+                                <button type="submit" value="submit">確認</button>
+
+                            </div>
+
+                    </form>
+                    <!--/div-->
+
+
+                </div>
+    </div>
+    <tr>
+
+        <td>時段/日期</td>
+        <%for(var i = 0;i <table_day.length;i++){%>
+        <td><%= table_day[i]%><br><%= table_date[i]%></td>
+         <%}%> 
                         </tr>
                         <tr><td>7:00~8:00</td>
-                            <td><a href=""><%=roomID%></a></td><td><%=roomID%></td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
-                        <tr><td>8:00~9:00</td>
-                            <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
-                        <tr><td>9:00~10:00</td>
-                            <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
-                        <tr><td>10:00~11:00</td>
-                            <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
-                        <tr><td>11:00~12:00</td>
-                            <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
-                        <tr><td>12:00~13:00</td>
-                            <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
-                        <tr><td>13:00~14:00</td>
-                            <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
-                        <tr><td>14:00~15:00</td>
-                            <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
-                        <tr><td>15:00~16:00</td>
-                            <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
-                        <tr><td>16:00~17:00</td>
-                            <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
-                        <tr><td>17:00~18:00</td>
-                            <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>            
-                        </table>
-                        
-                        
-                        
-                </main>  
-        </div>
-    </div>    
+                            <td><a href=""><%=roomID%></a></td>
+        <td><%=date%></td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+        <td>7</td>
+    </tr>
+    <tr>
+        <td>8:00~9:00</td>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+        <td>7</td>
+    </tr>
+    <tr>
+        <td>9:00~10:00</td>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+        <td>7</td>
+    </tr>
+    <tr>
+        <td>10:00~11:00</td>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+        <td>7</td>
+    </tr>
+    <tr>
+        <td>11:00~12:00</td>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+        <td>7</td>
+    </tr>
+    <tr>
+        <td>12:00~13:00</td>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+        <td>7</td>
+    </tr>
+    <tr>
+        <td>13:00~14:00</td>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+        <td>7</td>
+    </tr>
+    <tr>
+        <td>14:00~15:00</td>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+        <td>7</td>
+    </tr>
+    <tr>
+        <td>15:00~16:00</td>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+        <td>7</td>
+    </tr>
+    <tr>
+        <td>16:00~17:00</td>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+        <td>7</td>
+    </tr>
+    <tr>
+        <td>17:00~18:00</td>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+        <td>7</td>
+    </tr>
+    </table>
+
+
+
+    </main>
+    </div>
+    </div>
 </body>
 <script>
-$(document).ready(function(){
-    $("#MeetingDate").kendoDatePicker({ value: new Date(), format: "yyyy/MM/dd" });
-    $("#SearchStartDate").kendoDatePicker({ value: new Date(), format: "yyyy/MM/dd" });
-});</script>
+    $(document).ready(function () {
+     
+        $("#searchdate").kendoDatePicker({ value: new Date()/*, format: "yyyy/MM/dd"*/ });
+    });</script>
+
 </html>
