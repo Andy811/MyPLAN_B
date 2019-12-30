@@ -4,7 +4,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var app = express();
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 3000;
 
 var passport = require('passport');
 var flash = require('connect-flash');
@@ -45,6 +45,7 @@ app.get(/(.*)\.(jpg|gif|png|ico|css|js|txt)/i, function(req, res) {
         password: "123456",
         database: "nodejs_login",
     });
+    /*
     let sql = "delete from reservation where opendate  < sysdate()";
     connection.query(sql, (err, data) => {
         if (err) {
@@ -55,9 +56,9 @@ app.get(/(.*)\.(jpg|gif|png|ico|css|js|txt)/i, function(req, res) {
         console.log('delete success!');
         console.log(data);
     });
-
+*/
     
 require('./app/routes.js')(app, passport);
 
 app.listen(port);
-console.log("已啟動在http://localhost:8080/");
+console.log("已啟動在http://localhost:3000/");

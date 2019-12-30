@@ -135,49 +135,49 @@ module.exports = function (app) {
   }
 
   var today = new Date();
-
-
-  var data = [{
-    roomID: '二號會議室',
-    starttime: '9:00',
-    endTime: '12:00',
-    opendate: '/201912/26',
-    department: '精神科',
-    meetingID: '123',
-    meetingName: '嗚嗚嗚屋'
-  }, {
-    roomID: '一號會議室',
-    starttime: '7:00',
-    endTime: '8:00',
-    opendate: '2019/12/27',
-    department: '婦產科',
-    meetingID: '123456',
-    meetingName: '嗨嗨嗨嗨嗨嗨'
-  }];
-//巢狀迴圈在讀取物件時會出錯
-  function getOneWeekData(one_week) { //input一個禮拜的日期並return一個禮拜的會議資料
-    var sorted_Data = []
-    for (i = 0; i < one_week.length; i++) {
-      for (j = 0; j < data.length; j++) {
-        if (data[j].opendate == one_week[i]) { //第一個會讀不到
-          sorted_Data[i] = data[j]
-        } else {
-          sorted_Data[i] = {
-            roomID: '',
-            starttime: '',
-            endTime: '',
-            opendate: '',
-            department: '',
-            meetingID: '',
-            meetingName: ''
-          }
-        }
-      }
-    }
-    return sorted_Data
-  }
+  var sql_data = {}
   one_week = setMyDate(today.getDate())//預設日期
-  console.log("資料", getOneWeekData(one_week))
+
+  var One_DayData = new Array(11);
+  var One_WeekData =new Array(7);
+ 
+//一進去reservation就出現的表格 一號會議室 日期當天
+  con.query("select roomID,section,starttime,endTime,DATE_FORMAT(opendate," + "'" + "%Y/%m/%d" + "'" + ") as opendate,department,meetingID,meetingName from reservation where "
+    + "datediff(opendate," + "'" + one_week[0] + "'" + ")<=7 and"+" roomID =" + "'"+'一號會議室'+"'", function (err, rows) { //利用sql select一個日期七天之內的資料
+      
+      sql_data.reservation = rows;
+      for (i = 0; i < rows.length; i++) {
+        if(sql_data.reservation[i].opendate==one_week[0]){
+          console.log('第一天的會議',sql_data.reservation[i])
+          One_WeekData[0] = One_DayData
+          if(sql_data.reservation[i].starttime==='7:00'){
+            for(j=0;j<sql_data.reservation[i].section;j++){
+              One_WeekData[0][j] = sql_data.reservation[i].meetingName;
+            }
+            console.log('第一天7:00開始',One_WeekData[0])
+          }     
+          
+        } if(sql_data.reservation[i].opendate==one_week[1]){
+          console.log('第二天的會議',sql_data.reservation[i])
+        } if(sql_data.reservation[i].opendate==one_week[2]){
+          console.log('第三天的會議',sql_data.reservation[i])
+        } if(sql_data.reservation[i].opendate==one_week[3]){
+          console.log('第四天的會議',sql_data.reservation[i])
+        } if(sql_data.reservation[i].opendate==one_week[4]){
+          console.log('第五天的會議',sql_data.reservation[i])
+        } if(sql_data.reservation[i].opendate==one_week[5]){
+          console.log('第六天的會議',sql_data.reservation[i])
+        } if(sql_data.reservation[i].opendate==one_week[6]){
+          console.log('第七天的會議',sql_data.reservation[i])
+        }
+
+      }
+    });
+
+
+
+
+
 
   app.get('/reservation', isLoggedIn, function (req, res) {
 
@@ -191,7 +191,7 @@ module.exports = function (app) {
       roomID: roomid,
       date: search_date,
 
-      data: data
+      data: ''
     });
   });
 
@@ -241,9 +241,9 @@ module.exports = function (app) {
     var sqlforsearch = 'select ,eetingName from reservation where ' +
       con.query(sqlforsearch, function (err, rows) {
         console.log('搜尋結果', rows);
-
+  
         data.reservation = rows;
-
+  
         data.reservation = rows;
         if (err) {
           res.redirect('errorre');
