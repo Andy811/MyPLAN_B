@@ -127,60 +127,77 @@ module.exports = function (app) {
   //輸入 本月的第幾天 會回傳七天日期的陣列
   function setMyDate(date) {
     // var dates = Array(7) 移到外面變成屬性試試
-
+    
     for (i = 0; i < 7; i++) {
       one_week[i] = getFormatDate(date + i)  // (2)
     }
     return one_week
   }
-
+  
   var today = new Date();
   var sql_data = {}
   one_week = setMyDate(today.getDate())//預設日期
-  
-  function setOneDayData(input) {
-    var One_WeekData = new Array(7);
+  var Data_1 = new Array(11);
+  var Data_2 = new Array(11);
+  var Data_3 = new Array(11);
+  var Data_4 = new Array(11);
+  var Data_5 = new Array(11);
+  var Data_6 = new Array(11);
+  var Data_7 = new Array(11);
+  var One_WeekData = new Array(7);
+  function setOneDayData(i,day) {
     var array_starttime = ['7:00', '8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00']
-    var One_DayData = new Array(11);  
-    One_WeekData[i] = One_DayData
-      for (t = 0; t < array_starttime.length; t++) {
-        if (sql_data.reservation[input].starttime == array_starttime[t]) {
-          for (j = 0; j <= sql_data.reservation[input].section; j++) {
-            One_WeekData[i][j] = sql_data.reservation[input].meetingName;
-          }
-          console.log(array_starttime[t], One_WeekData[input][j])       
+    //var One_DayData = new Array(11);  
+    for (t = 0; t < array_starttime.length; t++) {
+      if (sql_data.reservation[i].starttime == array_starttime[t]) {
+        for (j = 0; j < sql_data.reservation[i].section; j++) {
+          day[t+j] = sql_data.reservation[i].meetingName;
+        }
+        //    console.log(array_starttime[t], One_WeekData[input][j])       
       }
     }
-    return One_WeekData
+    return day
   }
-
+  
   function setOneWeekData(i) {
     if (sql_data.reservation[i].opendate == one_week[0]) {
-      console.log('第一天的會議', setOneDayData(i))
-      setOneDayData(i)
+      One_WeekData[0] = setOneDayData(i)    
+      console.log('第一天的會議', setOneDayData(i,Data_1))
     } if (sql_data.reservation[i].opendate == one_week[1]) {
-     // console.log('第二天的會議', setOneDayData(i))
+      // console.log('第二天的會議', setOneDayData(i))
+      One_WeekData[1] = setOneDayData(i,Data_2)
     } if (sql_data.reservation[i].opendate == one_week[2]) {
       console.log('第三天的會議', sql_data.reservation[i])
+      One_WeekData[2] = setOneDayData(i,Data_3)
     } if (sql_data.reservation[i].opendate == one_week[3]) {
       console.log('第四天的會議', sql_data.reservation[i])
+      One_WeekData[3] = setOneDayData(i,Data_4)
     } if (sql_data.reservation[i].opendate == one_week[4]) {
       console.log('第五天的會議', sql_data.reservation[i])
+      One_WeekData[4] = setOneDayData(i,Data_5)
     } if (sql_data.reservation[i].opendate == one_week[5]) {
       console.log('第六天的會議', sql_data.reservation[i])
+      One_WeekData[5] = setOneDayData(i,Data_6)
     } if (sql_data.reservation[i].opendate == one_week[6]) {
       console.log('第七天的會議', sql_data.reservation[i])
+      One_WeekData[6] = setOneDayData(i,Data_7)
     }
   }
-
+  
   //一進去reservation就出現的表格 一號會議室 日期當天
   con.query("select roomID,section,starttime,endTime,DATE_FORMAT(opendate," + "'" + "%Y/%m/%d" + "'" + ") as opendate,department,meetingID,meetingName from reservation where "
-    + "datediff(opendate," + "'" + one_week[0] + "'" + ")<=7 and" + " roomID =" + "'" + '一號會議室' + "'", function (err, rows) { //利用sql select一個日期七天之內的資料
-      sql_data.reservation = rows;
-      for (i = 0; i < rows.length; i++) {
-        setOneWeekData(i)
+  + "datediff(opendate," + "'" + one_week[0] + "'" + ")<=7 and" + " roomID =" + "'" + '一號會議室' + "'", function (err, rows) { //利用sql select一個日期七天之內的資料
+    sql_data.reservation = rows;
+    for (i = 0; i < rows.length; i++) {
+      setOneWeekData(i)
+    }
+    for(i=0;i<One_WeekData.length;i++){
+      if(One_WeekData[i]==null){
+        One_WeekData[i]=''
       }
-     // console.log('全部資料', One_WeekData)
+    }     
+    console.log('sql_data.reservation',sql_data.reservation)
+     console.log('全部資料', One_WeekData)
     });
 
 
@@ -201,7 +218,7 @@ module.exports = function (app) {
       roomID: roomid,
       date: search_date,
 
-      data: ''
+      data: One_WeekData
     });
   });
 
