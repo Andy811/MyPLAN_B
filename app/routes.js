@@ -127,80 +127,85 @@ module.exports = function (app) {
   //輸入 本月的第幾天 會回傳七天日期的陣列
   function setMyDate(date) {
     // var dates = Array(7) 移到外面變成屬性試試
-    
+
     for (i = 0; i < 7; i++) {
       one_week[i] = getFormatDate(date + i)  // (2)
     }
     return one_week
   }
-  
+
+  var One_WeekData = new Array(7);
   var today = new Date();
   var sql_data = {}
-  one_week = setMyDate(today.getDate())//預設日期
-  var Data_1 = new Array(11);
-  var Data_2 = new Array(11);
-  var Data_3 = new Array(11);
-  var Data_4 = new Array(11);
-  var Data_5 = new Array(11);
-  var Data_6 = new Array(11);
-  var Data_7 = new Array(11);
-  var One_WeekData = new Array(7);
-  function setOneDayData(i,day) {
+  one_week = setMyDate(today.getDate())//預設日期   
+  function setOneDayData(i, day) {
     var array_starttime = ['7:00', '8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00']
     //var One_DayData = new Array(11);  
     for (t = 0; t < array_starttime.length; t++) {
       if (sql_data.reservation[i].starttime == array_starttime[t]) {
         for (j = 0; j < sql_data.reservation[i].section; j++) {
-          day[t+j] = sql_data.reservation[i].meetingName;
+          day[t + j] = sql_data.reservation[i].meetingName;
         }
-        //    console.log(array_starttime[t], One_WeekData[input][j])       
       }
     }
     return day
   }
-  
-  function setOneWeekData(i) {
-    if (sql_data.reservation[i].opendate == one_week[0]) {
-      One_WeekData[0] = setOneDayData(i)    
-      console.log('第一天的會議', setOneDayData(i,Data_1))
-    } if (sql_data.reservation[i].opendate == one_week[1]) {
-      // console.log('第二天的會議', setOneDayData(i))
-      One_WeekData[1] = setOneDayData(i,Data_2)
-    } if (sql_data.reservation[i].opendate == one_week[2]) {
+
+  function setOneWeekData(i, WeekArray) {
+    var Data_1 = new Array(11);
+    var Data_2 = new Array(11);
+    var Data_3 = new Array(11);
+    var Data_4 = new Array(11);
+    var Data_5 = new Array(11);
+    var Data_6 = new Array(11);
+    var Data_7 = new Array(11);
+    if (sql_data.reservation[i].opendate == WeekArray[0]) {
+      One_WeekData[0] = setOneDayData(i, Data_1)
+     // console.log('第一天的會議', One_WeekData[0])
+    } if (sql_data.reservation[i].opendate == WeekArray[1]) {
+      console.log('第二天的會議', setOneDayData(i))
+      One_WeekData[1] = setOneDayData(i, Data_2)
+    } if (sql_data.reservation[i].opendate == WeekArray[2]) {
       console.log('第三天的會議', sql_data.reservation[i])
-      One_WeekData[2] = setOneDayData(i,Data_3)
-    } if (sql_data.reservation[i].opendate == one_week[3]) {
+      One_WeekData[2] = setOneDayData(i, Data_3)
+    } if (sql_data.reservation[i].opendate == WeekArray[3]) {
       console.log('第四天的會議', sql_data.reservation[i])
-      One_WeekData[3] = setOneDayData(i,Data_4)
-    } if (sql_data.reservation[i].opendate == one_week[4]) {
+      One_WeekData[3] = setOneDayData(i, Data_4)
+    } if (sql_data.reservation[i].opendate == WeekArray[4]) {
       console.log('第五天的會議', sql_data.reservation[i])
-      One_WeekData[4] = setOneDayData(i,Data_5)
-    } if (sql_data.reservation[i].opendate == one_week[5]) {
+      One_WeekData[4] = setOneDayData(i, Data_5)
+    } if (sql_data.reservation[i].opendate == WeekArray[5]) {
       console.log('第六天的會議', sql_data.reservation[i])
-      One_WeekData[5] = setOneDayData(i,Data_6)
-    } if (sql_data.reservation[i].opendate == one_week[6]) {
+      One_WeekData[5] = setOneDayData(i, Data_6)
+    } if (sql_data.reservation[i].opendate == WeekArray[6]) {
       console.log('第七天的會議', sql_data.reservation[i])
-      One_WeekData[6] = setOneDayData(i,Data_7)
+      One_WeekData[6] = setOneDayData(i, Data_7)
     }
+
   }
-  
+
   //一進去reservation就出現的表格 一號會議室 日期當天
-  con.query("select roomID,section,starttime,endTime,DATE_FORMAT(opendate," + "'" + "%Y/%m/%d" + "'" + ") as opendate,department,meetingID,meetingName from reservation where "
-  + "datediff(opendate," + "'" + one_week[0] + "'" + ")<=7 and" + " roomID =" + "'" + '一號會議室' + "'", function (err, rows) { //利用sql select一個日期七天之內的資料
-    sql_data.reservation = rows;
-    for (i = 0; i < rows.length; i++) {
-      setOneWeekData(i)
-    }
-    for(i=0;i<One_WeekData.length;i++){
-      if(One_WeekData[i]==null){
-        One_WeekData[i]=''
-      }
-    }     
-    console.log('sql_data.reservation',sql_data.reservation)
-     console.log('全部資料', One_WeekData)
-    });
+  function setTable(WeekArray,roomID) {
+    con.query("select roomID,section,starttime,endTime,DATE_FORMAT(opendate," + "'" + "%Y/%m/%d" + "'" + ") as opendate,department,meetingID,meetingName from reservation where "
+      + "datediff(opendate," + "'" + WeekArray[0] + "'" + ")<=7 " + " and datediff('" + WeekArray[0] + "',opendate) <=0" + " and" + " roomID =" +  "'"+roomID+"'" , function (err, rows) { //利用sql select一個日期七天之內的資料
+        sql_data.reservation = rows;
 
-
+        console.log('sql_data.reservation', sql_data.reservation)
+        
+          for(i=0;i<One_WeekData.length;i++){
+            
+            if(One_WeekData[i]==null){
+              One_WeekData[i]=''
+            }
+          }   
+          
+        for (i = 0; i < sql_data.reservation.length; i++) {
+          setOneWeekData(i, WeekArray)
+        }
+        console.log('全部資料', One_WeekData)
+      });
+  }
+  setTable(one_week)
 
 
 
@@ -217,105 +222,35 @@ module.exports = function (app) {
       table_date: one_week,
       roomID: roomid,
       date: search_date,
-
-      data: One_WeekData
+      data: One_WeekData,
+      roomID:'一號會議室'
     });
   });
 
   //查詢的動作
-  app.post('/datainsert', urlencodedParser, function (req, res) {
-    //var one_weekData = new Array();
+  app.post('/datainsert', isLoggedIn, function (req, res) {
+
+    one_weekData = new Array(7)
     var search_room = req.body.meetingroom
     var search_date = req.body.searchdate
     var new_date = new Date(search_date)
-    one_week = setMyDate(new_date.getDate()) //一個禮拜的日期陣列
-
-    var data_all = {};
-    var SQL_MeetingName = "select roomID,starttime,endTime,DATE_FORMAT(opendate," + "'" + "%Y/%m/%d" + "'" + ") as opendate,department,meetingID,meetingName from reservation";
-    con.query(SQL_MeetingName, function (err, rows) {
-      data_all.reservation = rows;
-      console.log('搜尋結果哭阿', data_all.reservation);
-      if (err) {
-        res.redirect('errorre');
-      } else {
-        res.render('reservation.ejs', {
-          user: req.user,
-          table_day: setWeek(new_date.getDay()),
-          table_date: one_week,
-          data: data_all.reservation,
-          roomID: search_room,
-          date: search_date
-        });
-      }
-    })
-
-    /*測試中先不render reservation
-        res.render('reservation.ejs',
-          {
-            user: req.user,
-            table_day: setWeek(new_date.getDay()),
-            table_date: one_week,
-            roomID: search_room,
-            date: search_date
-          })
-    */
-
-    //var data = {};
-    //var sqlforsearch = 'select * from reservation where (roomid="'+ searchroom +'" OR starttime="'+ searchstart +'"OR endtime="'+ searchend +'"OR opendate="'+ searchdate +'"OR department="'+ searchdepartment +'"OR meetingname="'+ searchtopic +'")'
-    //var sqlforsearch = 'select meetingName from reservation where opendate='+searchdate
-    //測試
-    /*
-    var sqlforsearch = 'select ,eetingName from reservation where ' +
-      con.query(sqlforsearch, function (err, rows) {
-        console.log('搜尋結果', rows);
-  
-        data.reservation = rows;
-  
-        data.reservation = rows;
-        if (err) {
-          res.redirect('errorre');
-        } else {
-          res.render('searchpage', { data: data.reservation });
-        }
-      })
-      */
+    var new_one_week = setMyDate(new_date.getDate()) //一個禮拜的日期陣列
+    setTable(new_one_week,search_room)
+    
+    
+    res.render('reservation.ejs', {
+      user: req.user,
+      table_day: setWeek(new_date.getDay()),
+      table_date: one_week,
+      
+      data: One_WeekData,
+      date: search_date,
+      roomID: search_room
+    });
+    
   });
-
-
-
-  /*
-   app.post('/datainsert', urlencodedParser, function (req, res) {
-     console.log(req.body);
-     var con = mysql.createConnection({
-       host: "localhost",
-       user: "root",
-       password: "123456",
-       database: "nodejs_login",
-     });
- 
-     con.connect(function (err) {
-       var start = req.body.StartTime
-       var end = req.body.endtime
-       var room = req.body.meetingroom
-       var MeetingDate = req.body.opendate
-       var department = req.body.department
-       var meetingname = req.body.meetingname
-       if (err) throw err;
-       console.log("Connected!");
-       var sql = "INSERT INTO reservation (roomid,starttime,endtime,opendate,department,meetingname,meetingid ) VALUES ('" + room + "','" + start + "' ,'" + end + "','" + MeetingDate + "','" + department + "','" + meetingname + "',000)";//meetingid暫用
-       console.log(sql);
-       con.query(sql, function (err, result) {
-         console.log(result);
-         
-                 if (err) {
-                   res.redirect('errorre')
-                 } else {
-                   res.redirect('complete')
-                 }
-       });
-     });
-   });*/
 };
+console.log("one_weekData",one_week.length)
 
 
 

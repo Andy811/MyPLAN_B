@@ -135,12 +135,14 @@
 
             </div>
     </div>
+    <div id="table">
     <table style="border:3px #cccccc solid;" cellpadding="10" border='1' id="table">
+        <h1><%=roomID%></h1>
         <tr>
             <td>時段/日期</td>
             <%for(var i = 0;i < table_day.length;i++){%>
-            <td><%= table_day[i]%><br><%= table_date[i]%></td>
-             <%}%> 
+                <td><%= table_day[i]%><br><%= table_date[i]%></td>
+                <%}%> 
     </tr>
     
     <tr>
@@ -212,7 +214,7 @@
             <%}%>
         </tr>
     </table>
-
+    </div>
 
 
     </main>
